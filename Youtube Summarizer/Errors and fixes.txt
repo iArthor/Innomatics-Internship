@@ -1,0 +1,112 @@
+YouTube Video Summarizer – Error Notes & Fixes
+
+1. ModuleNotFoundError: No module named 'transcript'
+   Cause:
+   Python could not find the file `transcript.py`.
+
+Fix:
+
+* Ensure `transcript.py` exists in the same folder as `app.py`.
+* Check correct spelling and file name.
+* Restart Streamlit after fixing.
+
+Logic:
+Python imports modules based on file names and paths. If the file is missing or misplaced, import fails.
+
+---
+
+2. AttributeError: YouTubeTranscriptApi has no attribute 'get_transcript'
+   Cause:
+   Library version changed; old method `get_transcript()` removed.
+
+Fix:
+Use updated syntax:
+api = YouTubeTranscriptApi()
+api.fetch(video_id)
+
+Logic:
+Libraries evolve. Methods can be deprecated and replaced with new implementations.
+
+---
+
+3. Gemini Model Not Found (gemini-pro, gemini-1.5-flash, text-bison errors)
+   Cause:
+
+* Using outdated SDK (`google-generativeai`)
+* Deprecated or unsupported model names
+* API version mismatch
+
+Fix:
+
+* Uninstall old package:
+  pip uninstall google-generativeai
+* Install new SDK:
+  pip install google-genai
+* Use updated model:
+  model="gemini-2.5-flash"
+
+Logic:
+APIs get updated. Old models and endpoints are removed, requiring updated SDKs and model names.
+
+---
+
+4. Environment Variable Warning (.env not loaded)
+   Cause:
+   VS Code does not auto-load `.env` into terminal.
+
+Fix:
+
+* Use `load_dotenv()` in code (recommended)
+* OR enable:
+  python.terminal.useEnvFile = true
+
+Logic:
+Environment variables must be explicitly loaded unless configured in IDE settings.
+
+---
+
+5. Virtual Environment Confusion
+   Cause:
+   Installing packages outside `(venv)`.
+
+Fix:
+
+* Always activate venv:
+  venv\Scripts\activate
+* Then install packages
+
+Logic:
+Virtual environments isolate dependencies to avoid system conflicts.
+
+---
+
+6. Long Transcript / Token Limit Issues
+   Cause:
+   LLM input size limits.
+
+Fix:
+
+* Use chunking:
+  Split text into smaller parts before summarizing.
+
+Logic:
+Models cannot process very large text at once; chunking ensures stable processing.
+
+---
+
+Final Understanding:
+Most errors occurred due to:
+
+* Version mismatches
+* Incorrect file structure
+* Deprecated APIs
+
+Key Learning:
+Always check:
+
+* Library version
+* API updates
+* File structure
+* Environment setup
+
+This is a normal part of real-world development and debugging.
